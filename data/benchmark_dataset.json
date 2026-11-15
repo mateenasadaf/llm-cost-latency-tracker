@@ -1,0 +1,181 @@
+{
+  "dataset_name": "LLM Quality Benchmark",
+  "version": "1.0",
+  "description": "A fixed 12-question benchmark for comparing response quality across LLM providers. Each model receives each prompt independently, without conversation history.",
+  "scoring": {
+    "method": "manual",
+    "scale": "Each criterion is scored from 0 up to its maximum weighted points.",
+    "criteria": [
+      {
+        "key": "correctness_score",
+        "label": "Factual / Technical Correctness",
+        "max_score": 40,
+        "weight_percent": 40
+      },
+      {
+        "key": "relevance_score",
+        "label": "Relevance",
+        "max_score": 25,
+        "weight_percent": 25
+      },
+      {
+        "key": "completeness_score",
+        "label": "Completeness",
+        "max_score": 20,
+        "weight_percent": 20
+      },
+      {
+        "key": "clarity_score",
+        "label": "Clarity",
+        "max_score": 15,
+        "weight_percent": 15
+      }
+    ],
+    "total_max_score": 100
+  },
+  "questions": [
+    {
+      "benchmark_id": "GK01",
+      "category": "General Knowledge",
+      "prompt": "What is the difference between Artificial Intelligence, Machine Learning and Deep Learning?",
+      "reference_answer": "Artificial Intelligence (AI) is the broad field of building systems that perform tasks requiring human-like intelligence. Machine Learning (ML) is a subset of AI in which systems learn patterns from data to make predictions or decisions instead of relying only on explicitly programmed rules. Deep Learning (DL) is a subset of ML that uses multi-layer neural networks to learn complex representations, often from large datasets. Therefore, DL is part of ML, and ML is part of AI.",
+      "evaluation_criteria": [
+        "Correctly describes AI as the broad field.",
+        "Explains that ML learns patterns from data.",
+        "Explains that DL uses multi-layer neural networks.",
+        "States the AI > ML > DL relationship without reversing it."
+      ]
+    },
+    {
+      "benchmark_id": "GK02",
+      "category": "General Knowledge",
+      "prompt": "Explain how a database index improves query performance.",
+      "reference_answer": "A database index is an auxiliary data structure that stores selected column values with references to the corresponding rows, commonly using a B-tree or a similar structure. It lets the database locate matching rows without scanning every row in a table, reducing disk reads and query time for suitable filters, joins and ordering operations. Indexes consume storage and add work to INSERT, UPDATE and DELETE operations because they must be maintained. The query optimizer decides whether an index is useful.",
+      "evaluation_criteria": [
+        "Explains that an index is an auxiliary lookup structure.",
+        "Explains how it can avoid a full table scan and reduce lookup work.",
+        "Mentions trade-offs such as storage and write overhead.",
+        "Avoids claiming that indexes make every query faster."
+      ]
+    },
+    {
+      "benchmark_id": "GK03",
+      "category": "General Knowledge",
+      "prompt": "What is the difference between supervised and unsupervised learning?",
+      "reference_answer": "Supervised learning trains a model using labelled examples, where each input is paired with a known target. It learns to predict targets for new inputs; common tasks include classification and regression. Unsupervised learning uses data without supplied target labels to discover structure or patterns, such as clusters, lower-dimensional representations or associations. The key difference is whether training examples include target labels.",
+      "evaluation_criteria": [
+        "Identifies labelled input-target pairs in supervised learning.",
+        "Explains that unsupervised learning uses data without target labels.",
+        "Provides suitable examples or tasks for both.",
+        "Clearly states the central distinction."
+      ]
+    },
+    {
+      "benchmark_id": "TC01",
+      "category": "Technical Concepts",
+      "prompt": "Explain how a neural network learns using forward propagation and backpropagation.",
+      "reference_answer": "During forward propagation, input data passes through the network's layers. Each layer applies weights, biases and activation functions to produce a prediction. A loss function measures the difference between the prediction and the target. During backpropagation, the chain rule is used to calculate the gradients of the loss with respect to the network's weights and biases. An optimizer such as gradient descent uses these gradients to update the parameters, usually over many batches and epochs, reducing the loss.",
+      "evaluation_criteria": [
+        "Describes forward propagation from inputs to prediction.",
+        "Explains that a loss function measures prediction error.",
+        "Explains backpropagation and gradient calculation using the chain rule.",
+        "Explains optimizer-driven parameter updates."
+      ]
+    },
+    {
+      "benchmark_id": "TC02",
+      "category": "Technical Concepts",
+      "prompt": "What is overfitting in machine learning? Explain three ways to prevent it.",
+      "reference_answer": "Overfitting occurs when a model learns the training data too closely, including noise or accidental patterns, so it performs well on training data but generalizes poorly to unseen data. Three ways to reduce it are: (1) regularization, such as L1/L2 penalties or dropout, to discourage overly complex solutions; (2) use more representative training data or data augmentation where appropriate; and (3) reduce model complexity or use early stopping based on validation performance. A separate validation set or cross-validation helps detect overfitting.",
+      "evaluation_criteria": [
+        "Defines overfitting as poor generalization despite strong training performance.",
+        "Provides at least three valid prevention methods.",
+        "Explains the methods accurately rather than just listing names.",
+        "Distinguishes validation data from the final test set where relevant."
+      ]
+    },
+    {
+      "benchmark_id": "TC03",
+      "category": "Technical Concepts",
+      "prompt": "Explain how Retrieval-Augmented Generation (RAG) works.",
+      "reference_answer": "Retrieval-Augmented Generation combines information retrieval with a generative language model. First, documents are collected, split into chunks and indexed, often using embeddings in a vector database. At query time, the question is converted into a query representation and relevant chunks are retrieved, sometimes with keyword or hybrid search and reranking. The retrieved context is added to the prompt given to the LLM, which generates an answer grounded in that context. RAG can improve access to current or private knowledge, but retrieval quality and source relevance still matter.",
+      "evaluation_criteria": [
+        "Explains document preparation, chunking and indexing.",
+        "Explains retrieval of relevant context for a query.",
+        "Explains that retrieved context is supplied to the generator.",
+        "Mentions grounding and at least one limitation or dependency."
+      ]
+    },
+    {
+      "benchmark_id": "RS01",
+      "category": "Reasoning",
+      "prompt": "A model achieves 95% accuracy on training data and 70% on test data. What does this indicate, and how would you address it?",
+      "reference_answer": "The 25-percentage-point gap suggests overfitting: the model fits the training data substantially better than unseen test data. Check that the split is valid and that there is no data leakage, then use validation data to guide changes. Possible remedies include stronger regularization, a simpler model, early stopping, more representative training data or augmentation, and appropriate cross-validation. The test set should remain held out for final evaluation rather than repeated tuning.",
+      "evaluation_criteria": [
+        "Identifies likely overfitting from the generalization gap.",
+        "Calculates or recognizes the 25-point gap correctly.",
+        "Suggests valid remedies such as regularization, simpler model or more data.",
+        "Mentions checking leakage/split and protecting the test set."
+      ]
+    },
+    {
+      "benchmark_id": "RS02",
+      "category": "Reasoning",
+      "prompt": "A system processes 1,000 requests in 20 seconds. Calculate its average requests per second.",
+      "reference_answer": "Average throughput = number of requests / elapsed time = 1,000 / 20 = 50 requests per second (50 requests/s).",
+      "evaluation_criteria": [
+        "Uses requests divided by elapsed seconds.",
+        "Calculates 1,000 / 20 correctly as 50.",
+        "Includes the unit requests per second."
+      ]
+    },
+    {
+      "benchmark_id": "RS03",
+      "category": "Reasoning",
+      "prompt": "Two models answer the same question. Model A takes 2 seconds and Model B takes 8 seconds. Model B gives a more accurate answer. How would you decide which model is better?",
+      "reference_answer": "There is no universally better model without knowing the application's requirements. Compare accuracy or task quality against latency, cost and reliability, then decide using the required quality threshold and acceptable response time. If correctness is safety-critical, Model B may be preferable despite being slower. For latency-sensitive tasks where both meet the required quality threshold, Model A may be preferable. A controlled benchmark on representative prompts should inform the trade-off.",
+      "evaluation_criteria": [
+        "Recognizes that the decision depends on application requirements.",
+        "Balances quality against latency and preferably cost/reliability.",
+        "Gives a conditional decision rather than automatically choosing the faster or more accurate model.",
+        "Recommends representative, controlled evaluation."
+      ]
+    },
+    {
+      "benchmark_id": "CD01",
+      "category": "Coding",
+      "prompt": "Write a Python function to check whether a string is a palindrome. The check should ignore letter case and non-alphanumeric characters. Include a short example.",
+      "reference_answer": "def is_palindrome(text: str) -> bool:\n    cleaned = ''.join(ch.lower() for ch in text if ch.isalnum())\n    return cleaned == cleaned[::-1]\n\nExample: is_palindrome(\"A man, a plan, a canal: Panama\") returns True. The function removes non-alphanumeric characters, normalizes case, and compares the cleaned string with its reverse.",
+      "evaluation_criteria": [
+        "Provides valid Python code with a function.",
+        "Ignores case and non-alphanumeric characters.",
+        "Correctly compares the cleaned string with its reverse.",
+        "Includes a suitable example and correct expected result."
+      ]
+    },
+    {
+      "benchmark_id": "CD02",
+      "category": "Coding",
+      "prompt": "Explain the time complexity of binary search and why it is logarithmic.",
+      "reference_answer": "Binary search runs in O(log n) time on a sorted collection with random access. At each step it compares the target with the middle element and discards half of the remaining search interval. After k steps, the remaining interval is approximately n / 2^k. It becomes size 1 when 2^k is approximately n, so k is approximately log2(n). Its iterative space complexity is O(1); a recursive implementation uses O(log n) call-stack space.",
+      "evaluation_criteria": [
+        "States O(log n) time complexity.",
+        "Explains that each comparison halves the remaining search space.",
+        "Gives a sound logarithmic explanation.",
+        "Mentions the sorted-input requirement; space complexity is optional."
+      ]
+    },
+    {
+      "benchmark_id": "CD03",
+      "category": "Coding",
+      "prompt": "Write a Python function to find the second-largest distinct element in an array. Explain how it handles duplicates and the case where no answer exists.",
+      "reference_answer": "def second_largest(nums):\n    largest = second = None\n    for value in nums:\n        if largest is None or value > largest:\n            if value != largest:\n                second = largest\n                largest = value\n        elif value != largest and (second is None or value > second):\n            second = value\n    if second is None:\n        raise ValueError(\"No second-largest distinct value\")\n    return second\n\nThe function tracks the largest and second-largest distinct values in one pass, so duplicates of the largest are ignored. It raises ValueError when fewer than two distinct values exist. Time complexity is O(n), with O(1) extra space.",
+      "evaluation_criteria": [
+        "Provides syntactically valid Python and a correct one-pass or otherwise correct solution.",
+        "Returns the second-largest distinct value, not the second array position.",
+        "Handles duplicates correctly.",
+        "Handles fewer than two distinct values and explains the behavior."
+      ]
+    }
+  ]
+}
